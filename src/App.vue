@@ -4,6 +4,18 @@
       <div class="search-box">
         <input type="text" class="search-bar" placeholder="Search...">
       </div>
+
+      <div class="main-container">
+        <div class="location-container">
+          <div class="location">Manila, Philippines</div>
+          <div class="date">Wednesday, March 23 2022</div>
+        </div>
+
+        <div class="weather-container">
+          <div class="temperature">9°c</div>
+          <div class="status">Rain</div>
+        </div>
+      </div>
     </main>
   </div>
 </template>
@@ -77,5 +89,36 @@ export default {
     box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.25);
     background-color: rgba(255, 255, 255, 0.75);
     border-radius: 16px 0px 16px 0px;
+  }
+
+  .location-container{
+    margin-bottom: 10px;
+  }
+
+  .location-container .location{
+    color: #fff;
+    font-size: calc(2vw + 1.2em);
+    font-weight: 500;
+    text-align: center;
+    text-shadow: 1px 3px rgba(0, 0, 0, 0.25);
+  }
+
+  .location-container .date{
+    color: #fff;
+    font-size: calc(1vw + .75em);
+    font-weight: 500;
+    text-align: center;
+    font-style: italic;
+  }
+
+  .weather-container{
+    margin: 0 auto;
+    width: 75%;
+    max-width: 500px;
+    padding: 25px;
+
+    border-radius: 15px;
+    background-color: rgba(255, 255, 255, 0.75);
+    text-align: center;
   }
 </style>
