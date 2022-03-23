@@ -2,7 +2,13 @@
   <div id="app">
     <main>
       <div class="search-box">
-        <input type="text" class="search-bar" placeholder="Search...">
+        <input 
+          type="text" 
+          class="search-bar" 
+          placeholder="Search..."
+          v-model="query"
+          @keypress="getWeather"
+        >
       </div>
 
       <div class="main-container">
@@ -14,6 +20,7 @@
         <div class="weather-container">
           <div class="temperature">9°c</div>
           <div class="status">Rain</div>
+          {{ query }}
         </div>
       </div>
     </main>
@@ -21,12 +28,17 @@
 </template>
 
 <script>
+import { ref } from '@vue/reactivity'
 
 export default {
   name: 'app',
   setup(){
+    let query = ref('');
     return {
-      api_key: '903ac2bba7987881cae5396c6d2df314'
+      api_key: '903ac2bba7987881cae5396c6d2df314',
+      url_base: "https://api.openweathermap.org/data/2.5/",
+      query,
+      weather: {}
     }
   }
 }
