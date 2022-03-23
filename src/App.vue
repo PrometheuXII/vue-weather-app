@@ -113,12 +113,27 @@ export default {
 
   .weather-container{
     margin: 0 auto;
-    width: 75%;
-    max-width: 500px;
+    min-width: 150px;
+    max-width: 350px;
+    width: auto;
     padding: 25px;
 
     border-radius: 15px;
     background-color: rgba(255, 255, 255, 0.75);
     text-align: center;
+  }
+
+  .weather-container .temperature{
+    display: inline-block;
+    color: #000;
+    font-size: calc(3vw + 2.5em);
+    font-weight: 900;
+    
+    text-shadow: 2px 2px rgba(0, 0, 0, .25);
+  }
+
+  .weather-container .status{
+    color: #000;
+    font-size: calc(1vw + .75em);
   }
 </style>
