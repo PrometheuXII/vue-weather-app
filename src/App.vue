@@ -20,7 +20,6 @@
         <div class="weather-container">
           <div class="temperature">9°c</div>
           <div class="status">Rain</div>
-          {{ query }}
         </div>
       </div>
     </main>
@@ -28,17 +27,31 @@
 </template>
 
 <script>
+import axios from 'axios'
 import { ref } from '@vue/reactivity'
 
 export default {
   name: 'app',
   setup(){
     let query = ref('');
+    let weather = ref(null);
+    const getWeather = async (e) => {
+      if(e.key == "Enter"){
+        await axios.get(
+          'https://api.openweathermap.org/data/2.5/weather?q=Manila&units=metric&APPID=903ac2bba7987881cae5396c6d2df314'
+        ).then(response => (weather = response.data))
+        .catch((error) => {
+          console.log(error);
+        })
+        console.log(weather.name);
+      }
+    }
     return {
+      getWeather,
       api_key: '903ac2bba7987881cae5396c6d2df314',
       url_base: "https://api.openweathermap.org/data/2.5/",
       query,
-      weather: {}
+      weather,
     }
   }
 }
