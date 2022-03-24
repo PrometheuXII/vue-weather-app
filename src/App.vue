@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" :class="typeof weather.main != 'undefined' && weather.main.temp > 16 ? 'warm' : ''">
     <main>
       <div class="search-box">
         <input 
@@ -10,16 +10,16 @@
           @keypress="getWeather"
         >
       </div>
-
-      <div class="main-container">
+      <!-- v-if="typeof weather.main != 'undefined'" -->
+      <div class="main-container" v-if="typeof weather.main != 'undefined'" >
         <div class="location-container">
-          <div class="location">Manila, Philippines</div>
-          <div class="date">Wednesday, March 23 2022</div>
+          <div class="location">{{ weather.name }}, {{ weather.sys.country }}</div>
+          <div class="date">{{ dateBuilder() }}</div>
         </div>
 
         <div class="weather-container">
-          <div class="temperature">9°c</div>
-          <div class="status">Rain</div>
+          <div class="temperature">{{ Math.round(weather.main.temp) }}°c</div>
+          <div class="status">{{ weather.weather[0].main }}</div>
         </div>
       </div>
     </main>
@@ -34,26 +34,51 @@ export default {
   name: 'app',
   setup(){
     let query = ref('');
-    let weather = ref(null);
-    const getWeather = async (e) => {
-      if(e.key == "Enter"){
-        await axios.get(
-          'https://api.openweathermap.org/data/2.5/weather?q=Manila&units=metric&APPID=903ac2bba7987881cae5396c6d2df314'
-        ).then(response => (weather = response.data))
-        .catch((error) => {
-          console.log(error);
-        })
-        console.log(weather.name);
-      }
-    }
+    let weather = ref([]);
+    // const getWeather = async (e) => {
+    //   if(e.key == "Enter"){
+    //     await axios.get(
+    //       'https://api.openweathermap.org/data/2.5/weather?q=Manila&units=metric&APPID=903ac2bba7987881cae5396c6d2df314'
+    //     ).then(response => (weather = response.data))
+    //     .catch((error) => {
+    //       console.log(error);
+    //     })
+    //   }
+    // }
+    // watch(query, async(newQuery, oldQuery) => {
+    //   if(newQuery.length > 0){
+
+    //   }
+    // })
     return {
-      getWeather,
       api_key: '903ac2bba7987881cae5396c6d2df314',
       url_base: "https://api.openweathermap.org/data/2.5/",
       query,
       weather,
     }
+  },
+  methods: {
+    async getWeather(e) {
+      if(e.key == "Enter"){
+        await axios.get(this.url_base + "weather?q=" + this.query + "&units=metric&APPID="+ this.api_key)
+        .then(res => (this.weather = res.data))
+      }
+    },
+    dateBuilder () {
+      let d = new Date();
+      let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+      let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+      let day = days[d.getDay()];
+      let date = d.getDate();
+      let month = months[d.getMonth()];
+      let year = d.getFullYear();
+
+      return day +', '+ date +' '+ month +' '+ year; 
+    }
   }
+
+
 }
 </script>
 
@@ -76,6 +101,10 @@ export default {
     background-position: bottom;
 
     transition: 0.4s;
+  }
+
+  #app.warm {
+    background-image: url('./assets/warm-bg.jpg');
   }
 
   main{
